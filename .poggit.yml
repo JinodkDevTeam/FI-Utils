@@ -4,7 +4,7 @@ branches:
 - main
 projects:
   FI-Utils:
-    path: ""
     model: virion
     type: library
+    path: FI-Utils
 ...
