@@ -1,0 +1,5 @@
+name: FI-Utils
+antigen: JinodkDevTeam\utils
+api: 4.0.0
+version: 0.1
+author: JinodkDevTeam
