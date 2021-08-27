@@ -7,21 +7,19 @@ use Exception;
 use pocketmine\inventory\Inventory;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
-use pocketmine\player\Player;
 
 class ItemUtils{
 
 	/**
-	 * @param Player $player
-	 * @param Item   $other
+	 * @param Inventory $inv
+	 * @param Item      $other
 	 *
 	 * @return int
 	 *
 	 * @description Return count of item in player inventory
 	 */
-	public static function getItemCount(Player $player, Item $other): int{
+	public static function getItemCount(Inventory $inv, Item $other): int{
 		$count = 0;
-		$inv = $player->getInventory();
 		foreach ($inv->getContents() as $item){
 			if ($item->canStackWith($other)){
 				$count += $item->getCount();
