@@ -36,37 +36,44 @@ class ItemUtils{
 	 *
 	 * @description Copy-pasta of PM removeItem() with more strict with item NamedTag check...
 	 */
-	public static function removeItem(Inventory $inventory, Item ...$slots) : array{
-		/** @var Item[] $itemSlots */
-		/** @var Item[] $slots */
-		$itemSlots = [];
-		foreach($slots as $slot){
-			if(!$slot->isNull()){
-				$itemSlots[] = clone $slot;
-			}
-		}
-		for($i = 0, $size = $inventory->getSize(); $i < $size; ++$i){
-			$item = $inventory->getItem($i);
-			if($item->isNull()){
-				continue;
-			}
-			foreach($itemSlots as $index => $slot){
-				if($slot->equals($item, !$slot->hasAnyDamageValue(), true)){
-					$amount = min($item->getCount(), $slot->getCount());
-					$slot->setCount($slot->getCount() - $amount);
-					$item->setCount($item->getCount() - $amount);
-					$inventory->setItem($i, $item);
-					if($slot->getCount() <= 0){
-						unset($itemSlots[$index]);
-					}
-				}
-			}
-			if(count($itemSlots) === 0){
-				break;
-			}
-		}
-		return $itemSlots;
-	}
+     public static function removeItem(Inventory $inventory, Item ...$slots): array
+         {
+          /** @var Item[] $itemSlots */
+          /** @var Item[] $slots */
+           $itemSlots = [];
+           foreach ($slots as $slot) {
+              if (!$slot->isNull()) {
+               $itemSlots[] = clone $slot;
+             }
+          }
+
+      foreach ($itemSlots as $slot) {
+         if ($slot->getCount() <= 0) {
+            continue;
+        }
+
+        for ($i = 0, $size = $inventory->getSize(); $i < $size; ++$i) {
+            $item = $inventory->getItem($i);
+            if ($item->isNull()) {
+                continue;
+            }
+
+            if ($slot->equals($item, true)) {
+                $amount = min($item->getCount(), $slot->getCount());
+                $slot->setCount($slot->getCount() - $amount);
+                $item->setCount($item->getCount() - $amount);
+                $inventory->setItem($i, $item);
+
+                if ($slot->getCount() <= 0) {
+                    break;
+                }
+            }
+        }
+    }
+
+    return $itemSlots;
+}
+
 
 	public static function toString(Item $item): string{
 		$nbt = $item->nbtSerialize();
